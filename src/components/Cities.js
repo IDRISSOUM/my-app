@@ -53,7 +53,7 @@ function Cities(){
             data.map((item) => ( 
                     <div>
                         <table key={item.id}>
-                            <caption>Custamer Partner</caption>
+                            {/* <caption>Custamer Partner</caption> */}
                             <thead> 
                                 <tr>
                                     <th>Name</th>
