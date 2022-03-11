@@ -24,8 +24,7 @@ function Cities(){
 
       const postEvent = () => {
           const data = {
-              id: "9",
-              name: 'BenTest',
+              name: 'Ivory Cost',
               locations: [],
               time_added: date,
           }
