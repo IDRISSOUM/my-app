@@ -23,12 +23,12 @@ function Cities(){
 
       const postEvent = () => {
           const data = {
-              name: 'Ivory Cost',
-              locations: [10, 20, 30, 40],
+              name: 'Benin',
+              locations: [],
           }
-        const url =  data.id ? "https://testapi.photodino.de/cities/"+data.id : "https://testapi.photodino.de/cities/"
+        const url = "https://testapi.photodino.de/cities/"
         fetch(url, {
-            method:data.id ? 'POST' : 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -37,11 +37,11 @@ function Cities(){
         .then(response => {
             console.log("response", response)
             // eslint-disable-next-line eqeqeq
-            if(response == 200){
+            if(response.ok){
                   alert("success")
               }
           }).catch(error =>{
-              console.log('jvcgugvu', error)
+              console.log('erreur', error)
               
           })
       }
