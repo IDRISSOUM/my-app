@@ -20,22 +20,17 @@ function Cities(){
           
       }, [])
 
-    var date = new Date().toJSON();
 
       const postEvent = () => {
           const data = {
-              id: "76",
               name: 'Ivory Cost',
-              locations: [70, 71],
-              time_added: date,
+              locations: [10, 20, 30, 40],
           }
         const url =  data.id ? "https://testapi.photodino.de/cities/"+data.id : "https://testapi.photodino.de/cities/"
         fetch(url, {
             method:data.id ? 'POST' : 'PUT',
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(data),
         })
@@ -46,17 +41,14 @@ function Cities(){
                   alert("success")
               }
           }).catch(error =>{
-              console.log('erreur', error)
+              console.log('jvcgugvu', error)
               
           })
       }
       return (
         <div className = "App" style={{justifyContent: 'center', textAlign: 'justify', backgroundColor: 'red', display: 'inline-block'}}>
-        {
-            data.map((item) => ( 
                     <div>
-                        <table key={item.id}>
-                            {/* <caption>Custamer Partner</caption> */}
+                        <table>
                             <thead> 
                                 <tr>
                                     <th>Name</th>
@@ -66,17 +58,20 @@ function Cities(){
                             </thead>
 
                             <tbody> 
-                                <tr>
+                            {data.map((item) => {
+                                return (
+                                    <tr key={item.id}>
                                     <td>{item.name}</td>
                                     <td>{item.locations}</td>
                                     <td>{item.time_added}</td>
                                 </tr>
+                                )
+                            })}
+                               
                             </tbody>
 
                         </table>
                     </div>
-            ))
-        }
         <button onClick={postEvent}>Submit</button>
     </div>
       )
