@@ -31,7 +31,9 @@ function Cities(){
         const url =  data.id ? "https://testapi.photodino.de/cities/"+data.id : "https://testapi.photodino.de/cities/"
         fetch(url, {
             method:data.id ? 'POST' : 'PUT',
+            mode: 'same-origin',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
