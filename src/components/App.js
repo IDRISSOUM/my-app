@@ -15,20 +15,23 @@ class Test extends React.Component{
 
     render(){
       return (
-          <section>
+        <><div class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-center">
+          <header>
+            <NavBar/>
+          </header>
+        </div><section>
             {/* <h1 class="m-3">List of City, Locations and Events</h1> */}
-            <NavBar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/cities" element={<Cities />} />
-              <Route path="/add-cities" element={<AddData />}/>
-              <Route path="/:id" element={<UpdateData />}/>
+              <Route path="/add-cities" element={<AddData />} />
+              <Route path="/:id" element={<UpdateData />} />
               <Route path="/locations" element={<Locations />} />
-              <Route path="/add-locations" element={<AddLocations />}/>
+              <Route path="/add-locations" element={<AddLocations />} />
               <Route path="/events" element={<Events />} />
               <Route path="/add-events" element={<AddEvents />} />
             </Routes>
-          </section>
+          </section></>
         
       )}
   }

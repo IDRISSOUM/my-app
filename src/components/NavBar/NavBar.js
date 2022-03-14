@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 
 export default function NavBar() {
   return (
+
       <nav>
         <Link to="/" className="btn btn-outline-dark bg-light">Home</Link>
         <Link to="/cities" className="btn btn-outline-dark bg-light">Cities</Link>

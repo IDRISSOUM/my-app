@@ -5,14 +5,10 @@ import { NavLink } from 'react-router-dom'
 import {FaListAlt, FaCheckSquare, FaPlusSquare, FaTrash} from 'react-icons/fa';
 import {  Link, Outlet,useNavigate, useParams } from "react-router-dom";
 
-function Cities(props){
+function Cities(){
     let navigate = useNavigate();
-    let { id } = useParams();
     const url = "https://testapi.photodino.de/cities/"
     const [data, setData] = useState([]);
-    const [name, setName] = useState("");
-    const [code, setCode] = useState("");
-    const [message, setMessage] = useState("");
 
 useEffect(() => { 
     getData();
@@ -20,7 +16,7 @@ useEffect(() => {
     const getData = () => {
         fetch(url)
         .then(response => response.json())
-        .then(json => {setData(json);}).catch(error =>{console.log('error', error.message)})
+        .then(json => {setData(json);}).catch(error =>{console.log('Error', error.message)})
     }
 
     const deleteCities = (id) => {
@@ -47,7 +43,7 @@ useEffect(() => {
     <>
      <header/>
     <h1 className="d-flex justify-content-center">List of city</h1>
-    <div class="d-flex justify-content-around">
+    <div className="d-flex justify-content-around">
         <table id="customers1">
             <tr>
                 <th>Name</th>
@@ -61,7 +57,7 @@ useEffect(() => {
                             <td>{item.locations}</td>
                             <td>{item.time_added}</td>
                             <td><Button onClick={() => deleteCities(item.id)} className="btn btn-outline-dark bg-light"><span><FaTrash /></span></Button></td>
-                            <td><Button onClick={() => navigate('/:id')}><span>Edit</span></Button></td>
+                        <td><Button onClick={() => navigate(`/${item.id}`)}><span>Edit</span></Button></td>
                         </tr>
                         );
                     })}

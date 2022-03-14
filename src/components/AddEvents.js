@@ -2,14 +2,14 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/style-prop-object */
 import React, { useState, useEffect } from "react";
-import DatePicker from 'react-datepicker';
+import moment from 'moment'
 
 function SENDEVENTS ()  {
     const [locations, setLocations] = useState([]);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [event_date, setEventdate] = useState(new Date());
-    const [message, setMessage] = useState("");
+    const [event_date, setEventdate] = useState();
+    const [selectlocations, setSelectLocations] = useState();
 
 
     useEffect(() => { 
@@ -17,37 +17,24 @@ function SENDEVENTS ()  {
         
         }, [])
     const url = "https://testapi.photodino.de/locations/"
-    
     const getData = () => {
         fetch(url)
         .then(response => {
             return response.json()
-
         })
-        .then(json => {
-            console.log(json);
-            setLocations(json);
+        .then(data => {
+            console.log('DATAAAA', data);
+            setLocations(data);
         }).catch(error =>{console.log('error', error.message)})
     }
-    
 
-
-    
-    const formatDate = (date) => {
-        let d = new Date(date);
-        let month = (d.getMonth() + 1).toString().padStart(2, '0');
-        let day = d.getDate().toString().padStart(2, '0');
-        let year = d.getFullYear();
-        return [year, month, day].join('-');
-      }
-    
     const postEvent = (e) => {
         e.preventDefault();
-        const data = {
-            locations: locations,
+        const values = {
+            location: selectlocations,
             name: name,
             description: description,
-            event_date: event_date
+            event_date: moment(event_date).format('YYYY-MM-DD')
         }
         const url = "https://testapi.photodino.de/events/"
         fetch(url, {
@@ -55,45 +42,59 @@ function SENDEVENTS ()  {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(values),
         })
         .then(response => {
-            console.log("response", response);
-            // eslint-disable-next-line eqeqeq
-            if(response.ok){
-                setName("")
-            }
+            console.log("Response", response);
             }).catch(error =>{
-                console.log('erreur', error)
+                console.log('Error', error)
                 
             })
         }
+
+        const choiceLocations = function(e) {
+            e.preventDefault();
+            setSelectLocations(e.target.value)
+        }
+
         console.log('jjjj', locations)
         return(
-            <div>
-                <form onSubmit={postEvent}>
-                    <label for="company">Locations</label>
-                    <select className="form-control slct" name="state" value={locations} onChange={(e) =>  setLocations(e.target.value)}>
-                        {locations.map((e, key) => {  
-                            return <option key={key + e} value={e.id}>{e.name}</option>;
-                            })}
-                    </select>  
+            <div className="container">
+                <form onSubmit={postEvent} className="form-group">
+                    <h1 style={{justifyContent: 'center', textAlign: 'center', fontWeight: 'bold', fontSize: 45}}>Create New Events</h1>
+                    <div class="row jumbotron justify-content-center shadow-box-example z-depth-5 p-0 shadow-sm p-3 mb-5 bg-body rounded">
 
-                    <label for="fname">Name</label>
-                    <input type="text" id="fname" value={name}  placeholder="Name" onChange={(e) => setName(e.target.value)} />
+                        <div class="col-md-4 shadow-sm p-3 mb-5 bg-body rounded">
+                            <label  for="name">Name</label>
+                            <input type="text" value={name}  placeholder="Name" class="form-control" onChange={(e) => setName(e.target.value)}/>
+                        </div>
 
-                    <label for="description">Description</label>
-                    <textarea type="text" id="lname" value={description} placeholder="Description" onChange={(e) => setDescription(e.target.value)} style={{height:200, resize: 'none'}}></textarea>
+                        <div class="col-md-4 shadow-sm p-3 mb-5 bg-body rounded">
+                            <label  for="date">Date</label>
+                            <input type="date" value={event_date}  placeholder="2022-02-13" class="form-control" onChange={(e) => setEventdate(e.target.value)}/>
+                        </div>
 
-                    <label for="date">Date</label>
-                    <input  
-                    type="text" 
-                    id="lname" 
-                    value={event_date}  
-                    placeholder="Date" 
-                    onChange={(e) => setEventdate(e.target.value)} />
-                    
-                    <input type="submit" value="Submit" />
+                        <div class="col-md-6 shadow-sm p-3 mb-5 bg-body rounded">
+                            <label  for="description">Description</label>
+                            <textarea type="text" id="lname" value={description} placeholder="Description" onChange={(e) => setDescription(e.target.value)} style={{height:200, resize: 'none'}}></textarea>
+                        </div>
+
+                        <div class="col-md-2 shadow-sm p-3 mb-5 bg-body rounded">
+                            <label for="sel1" class="form-label">Select location:</label>
+                            <select class="form-select" id="sel2"  placeholder="Select location" onChange={choiceLocations}>
+                                {locations.map(item => {  
+                                    return (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name}
+                                    </option>)})}
+                            </select>
+                        </div>
+
+                        <div class="col-md-12 shadow-sm p-3 mb-5 bg-body rounded" style={{textAlign:'center', marginTop: -40}}>
+                            <button class="btn btn-primary" type="submit">Create</button>
+                        </div>
+
+                    </div>
                 </form>
             </div>
         );
